@@ -1425,7 +1425,9 @@ function submitGate() {
       pressure:RESULTS.contexts.pressure.pct,
       others:  RESULTS.contexts.others.pct,
     },
-    report_html: null,  // Populated below if Worker is active
+    report_html: null,
+    // Full RESULTS object — needed to rebuild report from URL link
+    full_results: JSON.parse(JSON.stringify(RESULTS)),
   };
 
   // ── Main flow: Worker → EmailJS → Show report ─────────────────────
