@@ -1401,109 +1401,164 @@ function submitGate() {
   async function runAll() {
     let pdfUrl = null;
 
-    // Step 1: Call Worker to generate PDF and get download URL
+    // Step 1: Show report IMMEDIATELY — never keep respondent waiting
+    show('report');
+    buildReport(RESULTS);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    btn.textContent = 'View my report';
+
+    // Step 2: Send metadata to Worker (non-blocking, runs in background)
     if (WORKER_ACTIVE) {
-      try {
-        // Build the report DOM first (needed for HTML snapshot)
-        buildReport(RESULTS);
-        const reportContainer = document.getElementById('report-container');
-
-        // Build a standalone HTML document for the PDF API
-        // Extracts all stylesheets and promotes print styles to default
-        const allStyles = Array.from(document.styleSheets).map(sheet => {
+      // Small delay to let report render fully before capturing
+      setTimeout(async () => {
+        try {
+          // Step 2a: Try to capture PDF from browser using print-to-blob
+          let pdfBlob = null;
           try {
-            return Array.from(sheet.cssRules).map(rule => {
-              // Promote @media print rules to default (unwrap them)
-              if (rule.cssText && rule.cssText.startsWith('@media print')) {
-                return rule.cssText
-                  .replace(/^@media print\s*\{/, '')
-                  .replace(/\}$/, '');
-              }
-              // Skip other @media queries (screen, max-width etc)
-              if (rule.cssText && rule.cssText.startsWith('@media')) {
-                return '';
-              }
-              return rule.cssText || '';
-            }).join('\n');
-          } catch(e) { return ''; }
-        }).join('\n');
+            pdfBlob = await capturePdfBlob();
+          } catch(captureErr) {
+            console.warn('PDF capture failed (non-blocking):', captureErr.message);
+          }
 
-        const pdfDocument = `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"><\/script>
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; font-size: 11pt; color: #1a1a1a; background: white; padding: 15mm; }
-${allStyles}
-/* Override screen-only hiding */
-.pdf-bar, .nav, .btn-start, .btn-back, .btn-next { display: none !important; }
-.cover-page { display: flex !important; flex-direction: column; align-items: center; justify-content: center; min-height: 90vh; page-break-after: always; text-align: center; }
-.print-header { display: flex !important; align-items: center; justify-content: space-between; padding: 6px 10px; background: #0C447C; border-radius: 5px; margin-bottom: 14px; }
-.print-header span { font-size: 8pt; color: rgba(255,255,255,0.7); }
-.print-footer { display: block !important; text-align: center; font-size: 7pt; color: #aaa; padding-top: 6px; border-top: 1px solid #ddd; margin-top: 12px; }
-</style>
-</head>
-<body>
-${reportContainer.innerHTML}
-</body>
-</html>`;
+          if (pdfBlob) {
+            // Step 2b: Upload PDF blob to Worker
+            const safeName = (name || 'Report').replace(/[^a-zA-Z0-9 ]/g,'').trim().replace(/ +/g,'_');
+            const today = new Date().toISOString().slice(0,10).replace(/-/g,'');
+            const filename = 'MyDISC_GeneratedOutput_' + safeName + '_' + today + '.pdf';
 
-        workerPayload.report_html = pdfDocument;
+            const formData = new FormData();
+            formData.append('pdf', pdfBlob, filename);
+            formData.append('metadata', JSON.stringify(workerPayload));
 
-        btn.textContent = 'Saving your report...';
-        const workerRes = await fetch(WORKER_URL + '/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(workerPayload),
-        });
-        const workerData = await workerRes.json();
-        if (workerData.success && workerData.download_url) {
-          pdfUrl = workerData.download_url;
-          console.log('PDF stored at:', pdfUrl);
+            const uploadRes = await fetch(WORKER_URL + '/upload', {
+              method: 'POST',
+              body: formData,
+            });
+            const uploadData = await uploadRes.json();
+            if (uploadData.success && uploadData.download_url) {
+              pdfUrl = uploadData.download_url;
+              console.log('PDF uploaded, URL:', pdfUrl);
+            }
+          } else {
+            // Fallback: send metadata only (no PDF blob)
+            const workerRes = await fetch(WORKER_URL + '/generate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(workerPayload),
+            });
+            const workerData = await workerRes.json();
+            if (workerData.success && workerData.download_url) {
+              pdfUrl = workerData.download_url;
+            }
+          }
+        } catch (workerErr) {
+          console.warn('Worker error (non-blocking):', workerErr.message);
         }
-      } catch (workerErr) {
-        console.warn('Worker error (non-blocking):', workerErr.message);
+
+        // Step 3: Send EmailJS with PDF URL (whether we got one or not)
+        if (typeof emailjs !== 'undefined') {
+          emailjs.send('service_dqkidhc', EMAILJS_TEMPLATE_ID, {
+            customer_name:     name,
+            customer_email:    email,
+            customer_company:  org,
+            customer_contact:  phone,
+            respondent_name:   name,
+            primary_style:     RESULTS.adapted.style,
+            work_style:        RESULTS.contexts.work.style,
+            home_style:        RESULTS.contexts.home.style,
+            leader_style:      RESULTS.contexts.leader.style,
+            follower_style:    RESULTS.contexts.follower.style,
+            pressure_style:    RESULTS.contexts.pressure.style,
+            natural_style:     RESULTS.natural.style,
+            energy_drain:      RESULTS.energyDrain + '/100 (' + (RESULTS.energyDrain >= 25 ? 'High' : RESULTS.energyDrain >= 15 ? 'Moderate' : 'Low') + ')',
+            reliability:       RESULTS.reliability,
+            date_completed:    date + ' at ' + time,
+            time_to_complete:  getElapsedTime(),
+            pdf_download_url:  pdfUrl || '',
+          }, EMAILJS_PUBLIC_KEY)
+          .then(() => console.log('EmailJS sent with PDF URL:', pdfUrl))
+          .catch(err => console.warn('EmailJS error (non-blocking):', err));
+        }
+      }, 2000); // 2 second delay to let report render
+    } else {
+      // No worker — just send email without PDF
+      if (typeof emailjs !== 'undefined') {
+        emailjs.send('service_dqkidhc', EMAILJS_TEMPLATE_ID, {
+          customer_name:    name, customer_email: email,
+          customer_company: org,  customer_contact: phone,
+          respondent_name:  name,
+          primary_style:    RESULTS.adapted.style,
+          pdf_download_url: '',
+        }, EMAILJS_PUBLIC_KEY).catch(err => console.warn('EmailJS:', err));
       }
     }
-
-    // Step 2: Send EmailJS with PDF URL included
-    btn.textContent = 'Sending confirmation...';
-    if (typeof emailjs !== 'undefined') {
-      emailjs.send('service_dqkidhc', EMAILJS_TEMPLATE_ID, {
-        customer_name:     name,
-        customer_email:    email,
-        customer_company:  org,
-        customer_contact:  phone,
-        respondent_name:   name,
-        primary_style:     RESULTS.adapted.style,
-        work_style:        RESULTS.contexts.work.style,
-        home_style:        RESULTS.contexts.home.style,
-        leader_style:      RESULTS.contexts.leader.style,
-        follower_style:    RESULTS.contexts.follower.style,
-        pressure_style:    RESULTS.contexts.pressure.style,
-        natural_style:     RESULTS.natural.style,
-        energy_drain:      RESULTS.energyDrain + '/100 (' + (RESULTS.energyDrain >= 25 ? 'High' : RESULTS.energyDrain >= 15 ? 'Moderate' : 'Low') + ')',
-        reliability:       RESULTS.reliability,
-        date_completed:    date + ' at ' + time,
-        time_to_complete:  getElapsedTime(),
-        pdf_download_url:  pdfUrl || '',
-      }, EMAILJS_PUBLIC_KEY)
-      .then(() => console.log('Lead captured via EmailJS'))
-      .catch(err => console.warn('EmailJS error (non-blocking):', err));
-    }
-
-    // Step 3: Show report (always — never blocked by Worker or email failure)
-    show('report');
-    if (!WORKER_ACTIVE) {
-      buildReport(RESULTS);
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   runAll();
+}
+
+// ── PDF blob capture using jsPDF + html2canvas ───────────────────────────
+async function capturePdfBlob() {
+  // Dynamically load jsPDF and html2canvas
+  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+
+  const { jsPDF } = window.jspdf;
+  const container = document.getElementById('report-container');
+  if (!container) throw new Error('Report container not found');
+
+  // Hide the sticky PDF bar and print-only elements during capture
+  const pdfBar = document.getElementById('pdf-sticky-bar');
+  if (pdfBar) pdfBar.style.display = 'none';
+
+  try {
+    const canvas = await html2canvas(container, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      windowWidth: 900,
+    });
+
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const pageW  = pdf.internal.pageSize.getWidth();
+    const pageH  = pdf.internal.pageSize.getHeight();
+    const margin = 10;
+    const usableW = pageW - margin * 2;
+    const imgW   = canvas.width;
+    const imgH   = canvas.height;
+    const ratio  = usableW / imgW;
+    const scaledH = imgH * ratio;
+    const pagesNeeded = Math.ceil(scaledH / (pageH - margin * 2));
+
+    for (let page = 0; page < pagesNeeded; page++) {
+      if (page > 0) pdf.addPage();
+      const srcY   = page * (pageH - margin * 2) / ratio;
+      const srcH   = Math.min((pageH - margin * 2) / ratio, imgH - srcY);
+      const sliceCanvas = document.createElement('canvas');
+      sliceCanvas.width  = imgW;
+      sliceCanvas.height = srcH;
+      const ctx = sliceCanvas.getContext('2d');
+      ctx.drawImage(canvas, 0, srcY, imgW, srcH, 0, 0, imgW, srcH);
+      const sliceData = sliceCanvas.toDataURL('image/jpeg', 0.92);
+      pdf.addImage(sliceData, 'JPEG', margin, margin, usableW, srcH * ratio);
+    }
+
+    const pdfBlob = pdf.output('blob');
+    return pdfBlob;
+  } finally {
+    if (pdfBar) pdfBar.style.display = '';
+  }
+}
+
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${src}"]`)) { resolve(); return; }
+    const s = document.createElement('script');
+    s.src = src; s.onload = resolve; s.onerror = reject;
+    document.head.appendChild(s);
+  });
 }
 
 // ══════════════════════════════════════════════════════════════════════
