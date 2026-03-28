@@ -1752,6 +1752,272 @@ function compatCard(style, color, text) {
 }
 
 
+
+
+
+// ══════════════════════════════════════════════════════════════════════
+// EXTENDED BLEND MODIFIERS — remaining sections
+// ══════════════════════════════════════════════════════════════════════
+const BLEND_EXTENDED = {
+
+  'Di': {
+    core_add:        `Your secondary Influence means your Dominance comes with social electricity. You do not just push for results — you rally people toward them. This makes you more persuasive than a pure D, more charismatic, and more aware of how your energy lands on others. The risk is that the performance can outpace the plan.`,
+    strengths_add:   `Your Di combination gives you an unusually powerful ability to open doors and close deals. Where a pure D might push people into compliance, you bring them along willingly. This makes you effective in commercial, leadership and culture-setting roles that require both drive and influence.`,
+    communication_add: `Your Di blend means you lead with energy and confidence simultaneously. You communicate big ideas persuasively, and people feel the momentum in your delivery. The watch point is that you can oversell — your enthusiasm outpaces the evidence, and commitments get made before the detail is solid.`,
+    conflict_add:    `In conflict, your Di blend means you go in hard but with charm. You push your position assertively but wrap it in enough social warmth that people do not always register how forceful you are being. This is effective short-term and relationship-damaging long-term if the pattern becomes visible.`,
+    environment_add: `You thrive in high-visibility, high-stakes environments where results and relationships both matter. Sales leadership, client-facing strategy, entrepreneurial ventures and culture-building roles play to both sides of your Di blend.`,
+    growth_add:      `Your growth path requires you to convert your natural influence into sustained accountability. The Di pattern is exceptionally good at starting things and less reliable at finishing them. Mature Di leaders build systems around their blind spots — tracking commitments, delegating follow-through, and measuring outcomes rather than just energy.`,
+    thirty_day_add:  `For the next 30 days, track every commitment you make in writing and review it at the end of each week. Note how many you completed, how many you carried over, and how many you quietly let go. The pattern will be uncomfortable and instructive.`,
+  },
+
+  'DS': {
+    core_add:        `Your secondary Steadiness means you carry a genuine concern for the people around you into every results-driven situation. You want to win, but not at the cost of the team. This makes you a steadier, more sustainable version of Dominance — effective over a longer horizon than a pure D.`,
+    strengths_add:   `Your DS blend makes you a particularly effective team leader. You hold high standards without creating the fear that a pure D can produce, and you build loyalty through consistency rather than just through results. Teams under DS leaders often over-perform relative to expectations because people feel both challenged and supported.`,
+    communication_add: `You communicate with directness but not with the edge that a pure D can carry. You check in before you move on. You give context. You make sure people are ready before you push. This makes you more effective at managing upward and across than a pure D, because people do not feel run over by you.`,
+    conflict_add:    `In conflict, your DS blend means you will push for your position but you will pull back if the relationship is showing strain. This creates situations where you have not fully resolved the issue because you softened the close to protect the connection. Name this pattern: it is a form of false harmony.`,
+    environment_add: `You perform best in environments with clear accountability and genuine team culture. You need both — a context where results matter and where the people producing them are respected. Pure process environments or pure hustle cultures both underuse your blend.`,
+    growth_add:      `Your DS growth challenge is learning when to prioritise the outcome over the relationship. You have the instinct to protect both, which is admirable, but there will be moments when a necessary decision will cost you a relationship in the short term. The question is whether you can make that call cleanly.`,
+    thirty_day_add:  `Identify one decision you have been delaying because of its relational cost. Make it this week. Notice what actually happens to the relationship and compare that to what you feared would happen.`,
+  },
+
+  'DC': {
+    core_add:        `Your secondary Conscientiousness means your Dominance is backed by rigour. You do not just push for outcomes — you care whether the outcomes are correct. This makes you one of the most strategically credible profiles in any organisation: decisive, but not reckless.`,
+    strengths_add:   `Your DC combination is particularly powerful in strategic and leadership roles that require both speed of judgment and quality of decision. You hold yourself to high standards and you produce results that can be defended. This gives you an unusual combination of authority and credibility.`,
+    communication_add: `You communicate with precision and directness simultaneously. Your messages are clear, logically structured and delivered without softening. This is highly efficient and can feel cold or dismissive to styles that need more warmth before they can receive information.`,
+    conflict_add:    `In conflict, your DC blend means you argue from both strength and evidence. You push hard and you are usually well-prepared. The risk is that you make it very difficult for the other person to win, which means they eventually stop engaging rather than disagree. You can end up being technically right in an empty room.`,
+    environment_add: `You perform best in high-complexity environments where accuracy and outcomes both matter — strategy, commercial leadership, systems design, investment or senior management roles where the cost of being wrong is high and the reward for being right is significant.`,
+    growth_add:      `Your DC growth edge is learning to allow imperfection in others without making them feel inadequate. Your combination of drive and standards creates an environment where only the very best performers feel comfortable, which caps the scale of what you can build through other people.`,
+    thirty_day_add:  `Choose one piece of work produced by a team member that meets the standard but not your ideal. Approve it without revision. Notice the outcome. Do this three times and compare results to your prediction.`,
+  },
+
+  'iD': {
+    core_add:        `Your secondary Dominance means your Influence comes with genuine ambition. You are not just socially energetic — you want to lead, to win, and to be the one who makes things happen. This makes you bolder than a pure i, more decisive, and more comfortable in high-stakes environments.`,
+    strengths_add:   `Your iD blend makes you a natural leader of people-intensive initiatives. You inspire commitment and then drive execution. Where a pure i might lose momentum after the launch, your D secondary keeps you pushing through the implementation phase. You are effective at keeping teams both energised and accountable.`,
+    communication_add: `You communicate with passion and authority. People feel both inspired and directed by you. The risk is that you can overwhelm — your confidence can close conversations that should stay open, and your pace can leave quieter team members behind.`,
+    conflict_add:    `In conflict, your iD blend means you engage energetically and personally. You push your position with enthusiasm and can find it difficult to separate the disagreement from the relationship. You may escalate faster than you intend to when you feel your ideas are being dismissed.`,
+    environment_add: `You thrive in leadership and commercial roles with high visibility, significant scope and genuine stakes. You need an audience for your work, a goal worth pursuing, and the authority to pursue it your way.`,
+    growth_add:      `Your iD growth challenge is learning that influence is not the same as authority. People can be inspired by you without following your direction. The mature iD leader learns to earn execution, not just attention — and builds systems to convert enthusiasm into measurable results.`,
+    thirty_day_add:  `For the next 30 days, after each presentation or pitch, ask one person in the room: what would make this more credible? Sit with the answer before responding.`,
+  },
+
+  'iS': {
+    core_add:        `Your secondary Steadiness means your Influence is anchored in genuine warmth and loyalty. You do not just connect with people — you stay connected. You remember what matters to them. You show up. This makes your relationships unusually deep for an i profile, and your network unusually loyal.`,
+    strengths_add:   `Your iS blend makes you the person who holds teams together during difficult periods. You bring energy when it is needed and stability when that is needed instead. You read the emotional climate of a group with accuracy and respond to what is actually required rather than what you feel like giving.`,
+    communication_add: `You communicate with warmth, care and patience. People feel genuinely heard by you, not just acknowledged. The risk is that you find it very difficult to deliver hard truths, and you can soften messages to the point where the essential information does not reach the recipient.`,
+    conflict_add:    `In conflict, your iS blend means you work extremely hard to keep both the relationship and the peace intact. You will often absorb more than your share of discomfort to avoid a confrontation. The issues that accumulate from this pattern eventually become larger than the original problem.`,
+    environment_add: `You thrive in people-oriented roles with high relational density — HR, culture building, client services, team leadership, coaching, facilitation. You need environments that value connection, not just output.`,
+    growth_add:      `Your iS growth challenge is developing a tolerance for necessary conflict. You have the social skill to handle difficult conversations — what you need is the belief that the relationship can survive them. It almost always can, and it usually comes out stronger.`,
+    thirty_day_add:  `Identify one conversation you have been avoiding. Write down exactly what you need to say, using one clear sentence. Have the conversation this week. Notice that the relationship survives.`,
+  },
+
+  'iC': {
+    core_add:        `Your secondary Conscientiousness means your Influence comes with a quality filter. You care how things are done, not just that they are done with energy. This makes you more credible than a pure i profile and more careful about the commitments you make and the accuracy of what you communicate.`,
+    strengths_add:   `Your iC blend is particularly effective in communication-intensive roles that also require precision — stakeholder management, proposal writing, structured facilitation, strategic communication. You can make complex things accessible and accurate simultaneously.`,
+    communication_add: `You communicate with warmth and structure. Your messages are both approachable and well-organised. The risk is over-preparation — you rehearse to the point where your delivery loses spontaneity, and you can come across as performing rather than connecting.`,
+    conflict_add:    `In conflict, your iC blend means you want to be liked AND to be right. This creates a pattern where you argue your position carefully and then soften the close when you sense disapproval. You can end up with neither the outcome nor the relationship fully intact.`,
+    environment_add: `You thrive in roles that require you to build bridges between analytical and people-oriented functions — communications, people operations, strategy teams, client engagement, learning and development.`,
+    growth_add:      `Your iC growth edge is learning to act before you feel fully prepared. Your standards and your desire for approval conspire to delay action. The milestone is making a commitment in public before your preparation is complete, and discovering that people respect the attempt more than the polish.`,
+    thirty_day_add:  `Share one idea in a meeting before you have fully developed it. Watch how the group responds. Do this once a week for the month.`,
+  },
+
+  'SD': {
+    core_add:        `Your secondary Dominance means your Steadiness is not passive. When you decide to act, you act decisively. This gives you a quality that pure S profiles often lack: the ability to hold firm when the situation requires it. You are patient by default and resolute when necessary.`,
+    strengths_add:   `Your SD blend makes you a highly effective operational leader. You plan carefully, execute reliably, and can hold a team to account without the abrasiveness that a pure D can produce. People trust you because you are consistent, and they follow you because you are clear.`,
+    communication_add: `You communicate steadily and with conviction when you need to. You choose your words carefully and people pay attention when you speak because you do not speak unnecessarily. The risk is that your threshold for speaking up is too high — you absorb more than you should before you name the issue.`,
+    conflict_add:    `In conflict, your SD blend means you are slower to engage than a D but harder to move once you have taken a position. You think before you push back, but once you push back you are not easily shifted. This can surprise people who expected you to accommodate.`,
+    environment_add: `You thrive in operational leadership, project management and execution-oriented roles where the combination of reliability and accountability produces real results. You need environments that value both consistency and outcomes.`,
+    growth_add:      `Your SD growth challenge is reducing the lag between identifying a problem and acting on it. Your patience is a strength, but it can become a liability when a situation requires speed. Practice intervening earlier, before your internal threshold for action is fully met.`,
+    thirty_day_add:  `This month, each time you notice a problem and your instinct is to wait and see, set a 48-hour decision window instead. Act within it. Track how the outcomes compare to your waiting default.`,
+  },
+
+  'Si': {
+    core_add:        `Your secondary Influence means your Steadiness has warmth and social energy behind it. You are not just patient and reliable — you are genuinely engaging and personable. People are drawn to you because you make them feel both comfortable and included.`,
+    strengths_add:   `Your Si blend makes you exceptionally effective in team cohesion and culture-building roles. You provide stability and you bring people together. You are the person others turn to when the team is fragmented, the atmosphere is tense or someone needs to feel genuinely supported.`,
+    communication_add: `You communicate with warmth and patience. You are an excellent listener and a generous conversational partner. The risk is that your desire to keep things positive can lead you to agree with people more than you actually do, creating misalignments that surface later.`,
+    conflict_add:    `In conflict, your Si blend means you will work hard to keep the relationship warm even when the disagreement is real. You look for common ground, you soften your position to reduce friction, and you often leave the conversation feeling resolved when the underlying issue is not.`,
+    environment_add: `You thrive in collaborative, people-centred environments with genuine team culture. You need roles where relationships matter, where your support of others is visible and valued, and where the pace allows for connection rather than just transaction.`,
+    growth_add:      `Your Si growth challenge is developing comfort with being direct. You have the relationship capital to say hard things — you have built enough trust that people can receive honest input from you. The work is giving yourself permission to use it.`,
+    thirty_day_add:  `Choose one person you work closely with and give them one piece of genuinely useful, direct feedback this month. Not cushioned, not indirect. One clear, specific observation. Notice what happens to the relationship.`,
+  },
+
+  'SC': {
+    core_add:        `Your secondary Conscientiousness means your Steadiness is backed by rigour. You are not just reliable — you are accurate. You bring both consistency and precision to your work, which makes you one of the most dependable profiles in any environment that values quality over speed.`,
+    strengths_add:   `Your SC blend makes you particularly effective in process design, quality assurance, compliance and any role where the work needs to be both consistent and correct. You build systems that last because you care about both the stability of the process and the accuracy of the output.`,
+    communication_add: `You communicate with care and precision. Your written communication is particularly strong — well-structured, accurate and thorough. Verbally, you are measured and considered, which means people trust what you say because you do not say things carelessly.`,
+    conflict_add:    `In conflict, your SC blend means you avoid confrontation and respond to it with careful analysis when forced to engage. You will build a logically sound case and present it quietly. The risk is that by the time you are ready to raise the issue, the window for easy resolution has closed.`,
+    environment_add: `You thrive in structured, quality-oriented environments — finance, operations, compliance, research, systems design, process improvement. You need contexts where accuracy is valued and where your methodical approach is seen as an asset rather than a limitation.`,
+    growth_add:      `Your SC growth challenge is developing tolerance for good enough. Your combination of precision and stability means you can become a bottleneck when speed is required — not through resistance but through thoroughness. The milestone is releasing work before it is perfect and discovering that the world does not end.`,
+    thirty_day_add:  `Set a timer for your next three analytical tasks. When the timer ends, stop and submit. Track the quality of feedback you receive and compare it to your prediction of how imperfect the output was.`,
+  },
+
+  'CD': {
+    core_add:        `Your secondary Dominance means your Conscientiousness is not passive or academic. You apply your precision in pursuit of real outcomes. You do not just analyse — you implement. This makes you one of the most formidable profiles in environments that require both analytical rigour and decisive execution.`,
+    strengths_add:   `Your CD blend makes you exceptionally effective in quality leadership, strategic execution and any role where high standards must produce measurable results. You hold the bar high and you push hard for it. Teams under CD leaders produce work they are genuinely proud of.`,
+    communication_add: `You communicate with authority and precision. Your arguments are well-structured, evidence-based and delivered without equivocation. People take you seriously. The risk is that your communication style leaves no room for uncertainty, which can make others reluctant to surface information that complicates your analysis.`,
+    conflict_add:    `In conflict, your CD blend means you fight hard and smart. You prepare your position, you argue from evidence, and you push for compliance. The risk is that winning becomes more important than resolving, and you can damage relationships by being technically correct in a way that feels personally hostile.`,
+    environment_add: `You thrive in high-stakes, high-standards environments — audit, legal, engineering leadership, quality management, senior strategy roles. You need contexts where excellence is the expectation and where your refusal to accept less is a competitive advantage rather than a cultural friction.`,
+    growth_add:      `Your CD growth challenge is developing genuine curiosity about perspectives that challenge your conclusions. Your analytical rigour and decisive instinct combine to make you resistant to information that does not fit your model. The growth move is building in deliberate dissent: seeking out the person most likely to disagree and genuinely listening.`,
+    thirty_day_add:  `Before your next three major decisions, ask one person who will give you the strongest possible counter-argument to your current position. Listen fully before you respond. Track whether any of your decisions changed as a result.`,
+  },
+
+  'Ci': {
+    core_add:        `Your secondary Influence means your Conscientiousness is more socially aware than it appears from the outside. You care about relationships, about how you are received, and about whether the people around you respect your work. This makes you more relationally sensitive than a pure C profile and more attuned to the emotional temperature of your environment.`,
+    strengths_add:   `Your Ci blend makes you effective in roles that require both analytical precision and stakeholder communication — data strategy, people analytics, technical account management, learning and development, communications strategy. You can translate between rigour and relationship in ways that most profiles cannot.`,
+    communication_add: `You communicate with care and social awareness. You are more diplomatic than a pure C, more warm, and more attentive to how your message lands. The risk is that your desire to be well-received softens your precision — you edit for palatability rather than accuracy.`,
+    conflict_add:    `In conflict, your Ci blend means you want to be both right and liked, which is a difficult position to maintain under pressure. You may argue your case carefully and then back down when the social cost becomes apparent, leaving both your position and your relationship in an ambiguous state.`,
+    environment_add: `You thrive in environments where analytical capability and interpersonal skill are both valued — strategy consultancies, people teams, client-facing technical roles, internal communications, organisational design. You need contexts where getting it right matters and where relationships are the medium through which getting it right happens.`,
+    growth_add:      `Your Ci growth challenge is learning to deliver difficult analysis without softening the conclusion to protect the relationship. Your technical credibility is high enough to sustain the impact of an uncomfortable finding. The work is trusting that the relationship is strong enough to absorb the honesty.`,
+    thirty_day_add:  `Identify one piece of analysis or feedback you have been softening to protect a relationship. Deliver the full, unedited version this month. Track the response.`,
+  },
+
+  'CS': {
+    core_add:        `Your secondary Steadiness means your Conscientiousness is patient and enduring. You do not just analyse — you sustain. You build systems that work over time, maintain standards without drama, and provide a kind of quiet organisational reliability that most people do not fully appreciate until it is gone.`,
+    strengths_add:   `Your CS blend makes you one of the most structurally valuable profiles in any organisation. You build processes that work, maintain them reliably, and improve them incrementally. The infrastructure of high-performing operations often has a CS profile behind it.`,
+    communication_add: `You communicate with quiet precision. You say what you mean, you mean what you say, and you do not use more words than necessary. People learn to pay attention when you speak because you have not wasted their attention before. The risk is that important observations go unsaid because the bar for speaking up feels too high.`,
+    conflict_add:    `In conflict, your CS blend means you are slow to engage and methodical when you do. You will present your case clearly and then wait. You are patient in disagreement, which can be disarming. The risk is that your preference for stability means you will often accommodate an imperfect resolution rather than push for a complete one.`,
+    environment_add: `You thrive in structured, process-oriented organisations where quality and stability are genuine values — operations, finance, compliance, research, infrastructure, governance roles. You need environments where long-term thinking is rewarded and where your commitment to getting things right is appreciated rather than slowed down.`,
+    growth_add:      `Your CS growth challenge is developing comfort with the disruption that improvement requires. Your combination of precision and stability means you can maintain systems better than almost anyone, but you can also resist changes that would make those systems significantly better. The growth move is distinguishing between stability that protects and stability that preserves the status quo past its usefulness.`,
+    thirty_day_add:  `Identify one process you maintain that could be improved but that you have not changed because it works well enough. Make one deliberate improvement to it this month. Track whether the stability you feared losing actually disappears.`,
+  },
+};
+
+function getExtendedModifier(primary, secondary, field) {
+  const blend = primary + secondary;
+  const mod = BLEND_EXTENDED[blend];
+  if (!mod) return '';
+  return mod[field] || '';
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// BLEND MODIFIERS — Secondary style influence on primary narrative
+// Adds precision to blind spots, stress arc and team value
+// ══════════════════════════════════════════════════════════════════════
+const BLEND_MODIFIERS = {
+
+  // ── D + secondary ────────────────────────────────────────────────────
+  'Di': {
+    blind_spot_add:   `Your secondary Influence means you can also overestimate how much buy-in you have built. People enjoy your energy and say yes in the moment, which you read as commitment. Check alignment, not just enthusiasm.`,
+    stress_add:       `Under pressure, your i secondary activates first — you become louder and more persuasive before you become controlling. This makes your stress cycle harder for others to read because the early warning looks like confidence, not distress.`,
+    team_value_add:   `You combine the rare ability to both decide and inspire. Most teams have one or the other. You offer both, which makes you disproportionately effective at getting people moving in the same direction.`,
+  },
+  'DS': {
+    blind_spot_add:   `Your secondary Steadiness creates an internal conflict most people cannot see: you want results fast, but you also genuinely care whether your team is okay. When this tension is unmanaged, you can appear inconsistent — decisive one day, accommodating the next.`,
+    stress_add:       `Under pressure, your S secondary pulls you toward protecting team stability even when the situation demands a harder call. You may delay a necessary decision to avoid disrupting relationships, which extends the very pressure you are trying to resolve.`,
+    team_value_add:   `You bring execution without abandoning the people doing the work. This makes you a rare kind of results-driver — one that teams will actually follow rather than comply with.`,
+  },
+  'DC': {
+    blind_spot_add:   `Your secondary Conscientiousness means you hold yourself and others to unusually high standards. You want results AND accuracy, which is a powerful combination, but it can make you hypercritical of work that is good enough but not perfect.`,
+    stress_add:       `Under pressure, you can become simultaneously demanding and analytical — pushing hard for outcomes while also slowing down to question the method. This combination is exhausting for teams and can create paralysis at the exact moment momentum is needed.`,
+    team_value_add:   `You are among the rare profiles who combine speed with rigour. Most people either move fast or get it right. You hold both standards, which means what you deliver can be trusted.`,
+  },
+
+  // ── i + secondary ────────────────────────────────────────────────────
+  'iD': {
+    blind_spot_add:   `Your secondary Dominance means your ego is closer to the surface than you realise. You read pushback as rejection rather than input, and you can turn collaborative conversations into competitions without intending to.`,
+    stress_add:       `Under pressure, your D secondary activates and you shift from inspiring to controlling. The people who were energised by you suddenly feel overridden by you. This transition is fast and catches people off guard because your baseline is so warm.`,
+    team_value_add:   `You are a natural leader who makes people feel both believed in and accountable. That combination is exceptionally rare and is the foundation of high-performing team culture.`,
+  },
+  'iS': {
+    blind_spot_add:   `Your secondary Steadiness amplifies your discomfort with conflict. You will work very hard to keep everyone happy, which means hard truths get softened, delayed or avoided entirely. Problems you should address at a two become tens before you act.`,
+    stress_add:       `Under pressure, you become even more focused on managing how people feel about the situation rather than the situation itself. You may give reassurances you cannot deliver because the emotional need in the room feels more urgent than the practical one.`,
+    team_value_add:   `You are the person who holds teams together during difficulty — not through authority but through genuine warmth and a consistent belief that people matter. Teams with someone like you in them have lower attrition and higher psychological safety.`,
+  },
+  'iC': {
+    blind_spot_add:   `Your secondary Conscientiousness means you can over-think how you are being perceived. You want to be liked AND respected AND accurate, which is an exhausting internal standard. You may rehearse conversations, over-prepare presentations and second-guess yourself in ways that slow you down.`,
+    stress_add:       `Under pressure, your C secondary pulls you toward analysis and your i primary pulls you toward social reassurance. You may find yourself preparing extensively, talking about your preparation, and still not making the decision. The two styles compete rather than collaborate.`,
+    team_value_add:   `You combine social intelligence with structural thinking, which makes you effective in stakeholder management, communication planning and any role where you need to build trust while delivering complexity clearly.`,
+  },
+
+  // ── S + secondary ────────────────────────────────────────────────────
+  'SD': {
+    blind_spot_add:   `Your secondary Dominance means that when you do decide to act, you act decisively — but the buildup is slow and the switch can feel sudden to people around you. They experience you as patient and then abruptly firm, which can feel inconsistent even when it is not.`,
+    stress_add:       `Under pressure, your D secondary activates and you become more directive than usual. People who rely on your patience are surprised by this, which can damage the trust you have built. Your stress response is essentially a personality shift.`,
+    team_value_add:   `You are the person who executes reliably and can step up decisively when the situation demands it. Teams can depend on you completely while also knowing you will not let things drift indefinitely.`,
+  },
+  'Si': {
+    blind_spot_add:   `Your secondary Influence means you invest deeply in relationships and genuinely care about the people you work with. The risk is that you can over-extend yourself socially and professionally, taking on responsibilities that belong to others because saying no feels like letting people down.`,
+    stress_add:       `Under pressure, you talk more, connect more and seek reassurance more — but the underlying issue often remains unaddressed. You manage the emotional temperature of the situation rather than the situation itself. This can make you appear more calm than you are.`,
+    team_value_add:   `You are the relational backbone of any team you are part of. You remember what matters to people, you notice when someone is struggling, and you create the conditions in which other people can do their best work.`,
+  },
+  'SC': {
+    blind_spot_add:   `Your secondary Conscientiousness compounds your natural caution. You are patient AND precise, which produces excellent work but can make you reluctant to proceed without certainty that is not always available. You can become the bottleneck in a process through thoroughness rather than resistance.`,
+    stress_add:       `Under pressure, you slow down and check more carefully, which is the opposite of what fast-moving situations require. Your instinct is to apply more rigour when the situation is uncertain, which extends timelines and frustrates stakeholders who need momentum.`,
+    team_value_add:   `You build systems and processes that outlast you. Your combination of patience and precision means the infrastructure you create actually gets used, because it is both reliable and understandable to the people who inherit it.`,
+  },
+
+  // ── C + secondary ────────────────────────────────────────────────────
+  'CD': {
+    blind_spot_add:   `Your secondary Dominance means you not only hold high standards but enforce them. When others fall short, you can become critical and controlling in ways that damage working relationships. You experience this as maintaining quality. Others experience it as being managed by a standard they cannot meet.`,
+    stress_add:       `Under pressure, your D secondary activates and you become directive as well as analytical. You want both control and correctness simultaneously. Teams experience this as a form of pressure that has no release valve — you will not accept imperfect work AND you will not slow down to explain.`,
+    team_value_add:   `You are among the most rigorous profiles in any organisation. Your combination of analytical precision and results focus makes you the person who produces work that is both accurate and consequential — not merely correct, but correct in a way that moves things forward.`,
+  },
+  'Ci': {
+    blind_spot_add:   `Your secondary Influence means you care more about how you are perceived than your analytical exterior suggests. Criticism of your work can feel disproportionately personal, and you may find yourself softening assessments to preserve relationships in ways that compromise your own standards.`,
+    stress_add:       `Under pressure, your i secondary looks for social reassurance while your C primary doubles down on analysis. You may find yourself explaining your reasoning at length to people who are not in a position to validate it, which feels productive but does not solve the underlying problem.`,
+    team_value_add:   `You communicate complex analysis with more warmth than most C profiles, which means your work lands with people rather than over them. You build trust through expertise and then keep it through connection, which gives you unusual reach.`,
+  },
+  'CS': {
+    blind_spot_add:   `Your secondary Steadiness amplifies your preference for stability and process. You are resistant to change, slow to commit to new approaches, and cautious about innovation. In a fast-moving environment, this combination can make you appear risk-averse even when the risk is low.`,
+    stress_add:       `Under pressure, both styles pull in the same direction — toward caution, process and stability. You respond to urgency by becoming more methodical, not less. This is the opposite of what crisis typically requires and can put you in conflict with stakeholders who need speed.`,
+    team_value_add:   `You are the institutional memory and quality standard of any team you are part of. Your combination of precision and consistency means that the things you build, the processes you design and the standards you maintain endure long after you have moved on.`,
+  },
+};
+
+function getBlendModifier(primary, secondary, field) {
+  const blend = primary + secondary;
+  const mod = BLEND_MODIFIERS[blend];
+  if (!mod) return '';
+  return mod[field] || '';
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// MANAGER GUIDE — 16 PERMUTATIONS
+// Source: Trident Talents DISC Permutations Framework
+// ══════════════════════════════════════════════════════════════════════
+const MANAGER_GUIDE_16 = {
+
+  // ── D PRIMARY ────────────────────────────────────────────────────────
+  'D': `To get the best from this person, give them a clear goal and meaningful autonomy over how they reach it. Check in on outcomes, not methods. When you need to redirect them, do it directly and early. They respond far better to honest challenge than to diplomatic softening that obscures the message. Avoid public criticism because it activates their defensive instincts in ways that are counterproductive for everyone. Recognise their results specifically and promptly. The thing most likely to make them disengage is feeling that their judgment is not trusted. Their trigger is loss of control. Remove bottlenecks fast and set KPIs around output only, not activity tracking.`,
+
+  'Di': `To get the best from this person, set clear outcomes with visible stakes and let them own the how. They combine drive with persuasion, so put them in client-facing, pitching or leadership roles where their energy closes deals. Anchor them with deliverables and deadlines because excitement without a tracking system leads to under-delivery. Ask them regularly: what is the close plan? Recognise both the result and the influence they built to get there. Their trigger is being ignored or unseen. Respond by giving them a scoreboard and an audience. They perform when performance is visible.`,
+
+  'DS': `To get the best from this person, balance challenge with stability. Give them structured goals with clear team responsibility. They will push for results but genuinely care whether people are brought along. Do not force rapid change without context because the internal conflict between pace and harmony will slow them down. Use them as team leads where execution and cohesion both matter. When results slip because they are protecting relationships, name it directly: help them prioritise the outcome over the comfort. Their trigger is conflict between achieving and maintaining. Coach decision-making under pressure.`,
+
+  'DC': `To get the best from this person, give them data and authority simultaneously. They want to be both right and effective. Involve them in decision frameworks, ask for their analysis before asking for their action, and show structured reasoning when you need them to change course. Do not rush decisions without logic because they will either comply superficially or resist completely. Their trigger is poor logic and sloppy thinking. Introduce the 80 percent rule: good enough to move is better than perfect too late. Set decision deadlines and hold them.`,
+
+  // ── i PRIMARY ────────────────────────────────────────────────────────
+  'i': `To get the best from this person, give them visible roles, genuine recognition, and regular human connection. They perform dramatically better when they feel seen and valued. Give feedback in private and with warmth. Hold them accountable to commitments gently but consistently because they will not naturally create structure for themselves. Avoid extended isolation. Their trigger is boredom and monotony. Reintroduce social energy when performance drops. Keep tasks short and varied. Use recognition as a management tool, not just a reward.`,
+
+  'iD': `To get the best from this person, respect their leadership instinct while controlling the outcomes. Put them in presentations, pitching and vision-setting roles where their bold, rallying energy is an asset. Acknowledge before you redirect. When you need them to shift focus, frame it as a bigger opportunity, not a correction. Their trigger is not being heard or not being given a platform. Tie authority to measurable outcomes so influence does not become a substitute for execution. Hold them accountable for what their team produces, not just what they say.`,
+
+  'iS': `To get the best from this person, build psychological safety first. They are warm, relationship-driven and deeply conflict-averse. Give them onboarding, team cohesion and engagement responsibilities where their natural empathy creates real value. Ask for feedback from the team through them. Do not put them in aggressive confrontation roles without coaching. Their trigger is conflict and rejection. Gradually coach assertiveness by scripting difficult conversations before they happen. They will avoid necessary conversations until the damage is done without that structure.`,
+
+  'iC': `To get the best from this person, combine structure with communication. Give them planning and stakeholder roles where they need to document, synthesise and present. Clarify deliverables and standards clearly because ambiguity makes them over-prepare and slow down. Ask structured questions rather than open-ended ones. Their trigger is unclear expectations. Set preparation time limits so they do not spend 80 percent of their time getting ready and 20 percent executing. Force deadlines before comfort.`,
+
+  // ── S PRIMARY ────────────────────────────────────────────────────────
+  'S': `To get the best from this person, provide stability, routine and predictability. They will not speak up when overloaded or unhappy, which means you must check in proactively rather than waiting for signals. Give consistent workflows. Acknowledge their contribution regularly and sincerely because they will never ask for recognition. Shock changes without context are deeply destabilising. Their trigger is rapid unannounced change. Explain the why and give transition time. Introduce change gradually with a clear explanation of what stays the same.`,
+
+  'SD': `To get the best from this person, give them responsibility with support. They are your silent performers, the people doing the work without making noise about it. Recognise them quietly but meaningfully. Do not take advantage of their reliability by adding load without acknowledgement. Check capacity weekly because they will accept too much before raising a concern. Their trigger is being overloaded without being seen. Proactively manage their workload. When you need them to step up, frame it as a clear mandate with your backing, not an expectation they should figure out alone.`,
+
+  'Si': `To get the best from this person, use them in HR, support, engagement and culture-building roles where their combination of warmth and social energy creates cohesion. They absorb team emotions and often know the temperature of a group before anyone else. Give them space to process before expecting a decision. Do not expose them to toxic environments consistently. Their trigger is emotional overwhelm and conflict. Help them set professional boundaries because they will over-absorb what belongs to others. Coach them on the difference between caring for people and carrying people.`,
+
+  'SC': `To get the best from this person, give them clear systems, processes and expectations. Assign them process improvement, SOP development and quality assurance work where their combination of patience and precision produces lasting value. Let them refine workflows without interruption. Do not rush them without clarity. Their trigger is chaos and unclear process. When disruption is unavoidable, reintroduce structure immediately and show them the new system rather than just naming the change. Coach controlled flexibility by introducing one variation at a time.`,
+
+  // ── C PRIMARY ────────────────────────────────────────────────────────
+  'C': `To get the best from this person, give them clear quality standards, adequate time, and the autonomy to determine how they will meet them. When they need to move faster, explain why using logic, not directive pressure. Give feedback in private with specificity and evidence. Their trigger is lack of clarity and incomplete information. Provide full context before expecting a decision. Enforce decision deadlines because more data is always available and without a deadline they will wait for certainty that will not come. Define good enough clearly.`,
+
+  'CD': `To get the best from this person, channel their high standards rather than suppress them. Put them in quality control, auditing, compliance and technical leadership roles where precision is a genuine asset. Define what done looks like so perfectionism does not delay delivery. Their trigger is imperfection and lack of control. Set deadlines with quality thresholds attached. The question to ask them regularly is not "is it perfect?" but "does it meet the standard we agreed?" Coach them to distinguish between standards that protect the work and standards that protect their ego.`,
+
+  'Ci': `To get the best from this person, create safe communication channels and encourage expression without pressure. Ask structured questions and give them time to prepare before meetings. Do not put them on the spot in group settings. Their trigger is public pressure and being judged. Use pre-read materials and allow written responses where possible. When you need their input, ask in advance rather than in the moment. Coach them to share one contribution per meeting, however small, so their ideas reach the team rather than staying private.`,
+
+  'CS': `To get the best from this person, give them long-term process ownership where their combination of precision and stability builds systems that genuinely last. Let them maintain consistency across projects and functions. Do not force constant change. Their trigger is disruption without logic. When change is necessary, show them the step-by-step reasoning so they can understand the new system before they are asked to operate within it. Coach adaptability by introducing controlled variation incrementally rather than expecting wholesale acceptance of a new approach.`,
+};
+
+function getManagerGuide(primary, secondary) {
+  const blend = primary + secondary;
+  return MANAGER_GUIDE_16[blend] || MANAGER_GUIDE_16[primary] || '';
+}
+
 function buildReport(R) {
   const {adapted, natural, energyDrain, reliability, contexts} = R;
   const name = R.name || 'You';
@@ -1878,6 +2144,7 @@ function buildReport(R) {
   <div class="r-section">
     <div class="r-section-title">1. Your core identity, the ${N.label} style</div>
     ${N.core_identity.split('\n\n').map(p=>para(p)).join('')}
+    ${getExtendedModifier(pri, sec, 'core_add') ? insightBoxHTML('How your ' + sec + ' secondary shapes your identity', getExtendedModifier(pri, sec, 'core_add'), '') : ''}
   </div>
 
   <!-- ═══ SECTION 2: HOW YOU THINK ═══ -->
@@ -1886,6 +2153,7 @@ function buildReport(R) {
     ${N.thinking.split('\n\n').map(p=>para(p)).join('')}
     ${sectionHeading('How you make decisions', DIM_COLORS[pri])}
     ${N.decision_making.split('\n\n').map(p=>para(p)).join('')}
+    ${getExtendedModifier(pri, sec, 'thinking_add') ? insightBoxHTML('How your ' + sec + ' secondary shapes your thinking', getExtendedModifier(pri, sec, 'thinking_add'), '') : ''}
   </div>
 
   <!-- ═══ SECTION 3: 6-CONTEXT OVERVIEW ═══ -->
@@ -1969,6 +2237,7 @@ function buildReport(R) {
     ${N.motivators_detail.split('\n\n').map(p=>para(p)).join('')}
     ${sectionHeading('What drains and demotivates you', '#A32D2D')}
     ${N.demotivators_detail.split('\n\n').map(p=>para(p)).join('')}
+    ${getExtendedModifier(pri, sec, 'strengths_add') ? insightBoxHTML('Your ' + pri + sec + ' blend strengths', getExtendedModifier(pri, sec, 'strengths_add'), 'green') : ''}
   </div>
 
   <!-- ═══ SECTION 8: BLIND SPOTS ═══ -->
@@ -1976,12 +2245,14 @@ function buildReport(R) {
     <div class="r-section-title">8. Blind spots, the honest section</div>
     ${para('Blind spots are not character flaws. They are the natural side-effects of your strengths, operating without a filter. Every style has them. The ones below are specific to yours, and they are most likely to limit you not because of their intensity, but because of their invisibility.')}
     ${N.blind_spots.split('\n\n').map(p=>para(p)).join('')}
+    ${getBlendModifier(pri, sec, 'blind_spot_add') ? insightBoxHTML('Your ' + pri + sec + ' blend adds one more', getBlendModifier(pri, sec, 'blind_spot_add'), '') : ''}
   </div>
 
   <!-- ═══ SECTION 9: COMMUNICATION FINGERPRINT ═══ -->
   <div class="r-section">
     <div class="r-section-title">9. Your communication fingerprint</div>
     ${N.communication_style.split('\n\n').map(p=>para(p)).join('')}
+    ${getExtendedModifier(pri, sec, 'communication_add') ? insightBoxHTML('How your ' + sec + ' secondary changes your communication', getExtendedModifier(pri, sec, 'communication_add'), '') : ''}
   </div>
 
   <!-- ═══ SECTION 10: WORK vs HOME ═══ -->
@@ -2011,6 +2282,7 @@ function buildReport(R) {
     <div class="r-section-title">12. You under pressure, the stress escalation arc</div>
     ${para(`Your pressure profile is ${contexts.pressure.style}. When stakes rise, your behaviour shifts in a predictable pattern, not randomly, but in a direction that is characteristic of your style. Understanding this arc is one of the most practically useful things this report can give you.`)}
     ${N.stress_arc.split('\n\n').map(p=>para(p)).join('')}
+    ${getBlendModifier(pri, sec, 'stress_add') ? insightBoxHTML('How your ' + sec + ' secondary changes your stress pattern', getBlendModifier(pri, sec, 'stress_add'), 'amber') : ''}
     ${insightBoxHTML('The most important thing to know about your pressure response', `The most dangerous stage is not severe pressure, it is the transition from moderate to severe, because this is the point at which the people around you have already been affected, but you have not yet registered that your behaviour has changed significantly. Building a personal early warning system, knowing your specific signal that you have entered moderate pressure, and communicating it to the people closest to you is the single most effective pressure management strategy available to your style.`, '')}
   </div>
 
@@ -2035,6 +2307,7 @@ function buildReport(R) {
       <div class="conflict-card"><div class="cc-label">What to watch for</div><div class="cc-title">Destructive tendencies</div><div class="cc-body">{{ CONFLICT_DESTRUCTIVE }}</div></div>
     </div>
     ${insightBoxHTML('How to make conflict productive', '{{ CONFLICT_PRODUCTIVE }}', 'green')}
+    ${getExtendedModifier(pri, sec, 'conflict_add') ? insightBoxHTML('Your ' + pri + sec + ' conflict pattern', getExtendedModifier(pri, sec, 'conflict_add'), 'amber') : ''}
   </div>
 
   <!-- ═══ SECTION 15: WORKING WITH OTHERS ═══ -->
@@ -2063,12 +2336,14 @@ function buildReport(R) {
   <div class="r-section">
     <div class="r-section-title">16. Ideal role and environment</div>
     ${N.ideal_environment.split('\n\n').map(p=>para(p)).join('')}
+    ${getExtendedModifier(pri, sec, 'environment_add') ? insightBoxHTML('Where your ' + pri + sec + ' blend performs best', getExtendedModifier(pri, sec, 'environment_add'), '') : ''}
   </div>
 
   <!-- ═══ SECTION 17: GROWTH TRAJECTORY ═══ -->
   <div class="r-section">
     <div class="r-section-title">17. Your growth trajectory</div>
     ${N.growth_trajectory.split('\n\n').map(p=>para(p)).join('')}
+    ${getExtendedModifier(pri, sec, 'growth_add') ? insightBoxHTML('Your ' + pri + sec + ' specific growth edge', getExtendedModifier(pri, sec, 'growth_add'), '') : ''}
   </div>
 
   <!-- ═══ SECTION 18: RADAR ═══ -->
@@ -2090,7 +2365,10 @@ function buildReport(R) {
   <div class="r-section">
     <div class="r-section-title">19. Your team value statement</div>
     ${para('The paragraph below has been written for you based on your profile. It is suitable for sharing in a team workshop, an onboarding introduction, a personal development conversation, or anywhere you want to communicate your working style to colleagues quickly and clearly.')}
-    ${insightBoxHTML(`${firstName}'s contribution to any team`, N.team_value, '')}
+    <div class="insight-box green">
+      <div class="insight-title">${firstName}'s contribution to any team</div>
+      <div class="insight-body">${para(N.team_value)}${getBlendModifier(pri, sec, 'team_value_add') ? para(getBlendModifier(pri, sec, 'team_value_add')) : ''}</div>
+    </div>
     ${para('You may want to edit this to make it fully your own. The goal is not a perfect description, it is a starting point for a conversation about how you work best.')}
   </div>
 
@@ -2104,13 +2382,14 @@ function buildReport(R) {
       <div class="action-card"><span class="ac-label ac-stop">Expect</span><div class="ac-title">The discomfort</div><div class="ac-body">${N.thirty_day.split('\n\n')[1] ? N.thirty_day.split('\n\n')[1].split('.')[0]+'.' : 'This will feel unnatural at first. That feeling is the signal you are growing.'}</div></div>
       <div class="action-card"><span class="ac-label ac-invest">Measure</span><div class="ac-title">The outcome</div><div class="ac-body">${N.thirty_day.split('\n\n')[3] || 'Track your progress weekly. At 30 days, assess what changed.'}</div></div>
     </div>
+    ${getExtendedModifier(pri, sec, 'thirty_day_add') ? insightBoxHTML('Additional experiment for your ' + pri + sec + ' blend', getExtendedModifier(pri, sec, 'thirty_day_add'), 'green') : ''}
   </div>
 
   <!-- ═══ SECTION 21: MANAGER'S GUIDE ═══ -->
   <div class="r-section">
     <div class="r-section-title">21. Manager's guide, for the people who lead ${firstName}</div>
     ${para(`This section is written for ${firstName}'s manager, not for ${firstName}. It summarises what this profile needs to perform at its best, and what to avoid.`)}
-    ${insightBoxHTML(`How to get the best from ${firstName}`, N.manager_guide, '')}
+    ${insightBoxHTML(`How to get the best from ${firstName}`, getManagerGuide(pri, sec), '')}
   </div>
 
   <div class="print-btn-row" style="display:none;"></div>
