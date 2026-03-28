@@ -1040,7 +1040,38 @@ let LOGO_SRC = '';
 window.addEventListener('DOMContentLoaded', () => {
   const navImg = document.querySelector('.nav img');
   if (navImg) LOGO_SRC = navImg.src;
+
+  // Check if URL contains ?report=ID — load saved report directly
+  const urlParams = new URLSearchParams(window.location.search);
+  const reportId  = urlParams.get('report');
+  if (reportId) {
+    loadSavedReport(reportId);
+  }
 });
+
+async function loadSavedReport(reportId) {
+  show('report');
+  document.getElementById('report-container').innerHTML = `
+    <div style="text-align:center;padding:80px 20px;color:var(--text-lt);">
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;">Loading your report...</div>
+    </div>`;
+  try {
+    const workerBase = 'https://disc-assessment-worker.tridenttalents.workers.dev';
+    const res  = await fetch(workerBase + '/report?id=' + encodeURIComponent(reportId));
+    const data = await res.json();
+    if (!data.success || !data.results) throw new Error(data.error || 'Not found');
+    RESULTS = data.results;
+    buildReport(RESULTS);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (err) {
+    document.getElementById('report-container').innerHTML = `
+      <div style="text-align:center;padding:80px 20px;color:var(--text-lt);">
+        <div style="font-size:18px;font-weight:600;margin-bottom:8px;">Report not found</div>
+        <div style="font-size:14px;">This link may have expired. Please complete the assessment again at
+        <a href="${window.location.origin}" style="color:#185FA5;">this link</a>.</div>
+      </div>`;
+  }
+}
 let timerInterval = null;
 let timerSeconds = 0;
 
@@ -1435,20 +1466,33 @@ function submitGate() {
               body: formData,
             });
             const uploadData = await uploadRes.json();
-            if (uploadData.success && uploadData.download_url) {
-              pdfUrl = uploadData.download_url;
+            if (uploadData.success) {
+              pdfUrl = uploadData.download_url || '';
               console.log('PDF uploaded, URL:', pdfUrl);
+              // Also send metadata to get report_url
+              try {
+                const metaRes = await fetch(WORKER_URL + '/generate', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(workerPayload),
+                });
+                const metaData = await metaRes.json();
+                if (metaData.success && metaData.report_url) {
+                  pdfUrl = metaData.report_url;
+                }
+              } catch(e) { /* non-blocking */ }
             }
           } else {
-            // Fallback: send metadata only (no PDF blob)
+            // Send metadata to Worker, get back report_url
             const workerRes = await fetch(WORKER_URL + '/generate', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(workerPayload),
             });
             const workerData = await workerRes.json();
-            if (workerData.success && workerData.download_url) {
-              pdfUrl = workerData.download_url;
+            // Use report_url (link back to full report page) as the email link
+            if (workerData.success) {
+              pdfUrl = workerData.report_url || workerData.download_url || '';
             }
           }
         } catch (workerErr) {
