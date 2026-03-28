@@ -743,12 +743,14 @@
       border-bottom: 1px solid #e8e8e8;
     }
     .print-header img {
-      height: 26px;
-      width: auto;
+      height: 28px !important;
+      width: auto !important;
+      max-width: 140px !important;
       display: block;
       background: #0C447C;
       border-radius: 4px;
-      padding: 3px 8px;
+      padding: 4px 10px;
+      object-fit: contain;
     }
     .print-header span {
       font-size: 11px;
@@ -1970,6 +1972,168 @@ function getBlendModifier(primary, secondary, field) {
   return mod[field] || '';
 }
 
+
+// ══════════════════════════════════════════════════════════════════════
+// SUGGESTED ROLES — 16 PERMUTATIONS
+// ══════════════════════════════════════════════════════════════════════
+const ROLES_16 = {
+  'D':  {
+    title: 'Results-driver, turnaround leader',
+    best:  ['CEO / Managing Director','Business Unit Head','Sales Director','Operations Director','Entrepreneur / Founder','Crisis Manager','Programme Director'],
+    avoid: ['Compliance Officer','Data Analyst','Customer Support','Administrative Coordinator','Research Scientist'],
+    why:   'Pure D profiles need authority, clear outcomes and minimal process. They thrive where pace is high and results are the primary measure of success.'
+  },
+  'Di': {
+    title: 'Persuasive leader, commercial driver',
+    best:  ['Sales Director / VP Sales','Business Development Lead','CEO / Founder','Client Partner','Public Speaker / Facilitator','Marketing Director','Commercial Director'],
+    avoid: ['Quality Assurance Manager','Backend Developer','Financial Controller','Compliance Analyst','Technical Writer'],
+    why:   'The Di combination is built for commercial environments where influence and outcomes both matter. You open doors and drive through them.'
+  },
+  'DS': {
+    title: 'Operational team leader, delivery manager',
+    best:  ['Operations Manager','Project Director','Team Lead / Department Head','General Manager','Supply Chain Director','Site Manager','Production Director'],
+    avoid: ['Creative Director','Research Analyst','Compliance Specialist','Independent Consultant','Academic Researcher'],
+    why:   'DS profiles balance execution with people management. You are most effective leading teams through sustained delivery where both pace and stability matter.'
+  },
+  'DC': {
+    title: 'Strategic analyst, high-standards executive',
+    best:  ['Chief Strategy Officer','Investment Director','Management Consultant','Engineering Director','Risk Director','Product Director','Senior Partner'],
+    avoid: ['Community Manager','Event Coordinator','Front-line Sales','Customer Success Manager','PR Manager'],
+    why:   'DC combines decisive execution with analytical rigour. You perform best in senior roles where both speed and correctness are requirements, not trade-offs.'
+  },
+  'i':  {
+    title: 'People connector, culture builder',
+    best:  ['Sales Manager','Account Manager','Brand Manager','L&D Facilitator','Culture Lead','Community Manager','PR & Communications Manager'],
+    avoid: ['Financial Auditor','Data Scientist','Compliance Manager','Laboratory Researcher','Technical Analyst'],
+    why:   'Pure i profiles need variety, human connection and visibility. You perform best in roles where your energy and enthusiasm are the primary tools of your trade.'
+  },
+  'iD': {
+    title: 'Inspirational leader, bold commercial force',
+    best:  ['Sales Leader','Founder / CEO','Business Development Director','Keynote Speaker','Head of Growth','Franchise Owner','Commercial Partner'],
+    avoid: ['Data Analyst','QA Engineer','Financial Controller','Compliance Officer','Technical Researcher'],
+    why:   'iD profiles combine inspiration with drive. You excel in leadership and commercial roles where rallying people AND delivering outcomes are both required.'
+  },
+  'iS': {
+    title: 'Team cohesion lead, trusted people partner',
+    best:  ['HR Business Partner','Employee Experience Lead','Training Manager','People & Culture Manager','Community Manager','Coaching & Development Lead','Client Relationship Manager'],
+    avoid: ['Chief Financial Officer','Auditor','Data Engineer','Compliance Director','Operations Analyst'],
+    why:   'iS profiles are the relational glue of organisations. You perform best in people-centred roles where warmth, loyalty and sustained connection produce real value.'
+  },
+  'iC': {
+    title: 'Strategic communicator, stakeholder manager',
+    best:  ['Communications Director','Stakeholder Manager','Strategy Consultant','People Analytics Lead','Programme Manager','L&D Designer','Internal Communications Lead'],
+    avoid: ['Production Line Manager','Rapid Sales Closer','Field Operations Manager','Logistics Coordinator','Plant Manager'],
+    why:   'iC profiles bridge analytical and relational functions. You are most effective in roles where structured thinking must be communicated with warmth and credibility.'
+  },
+  'S':  {
+    title: 'Reliable executor, steady team anchor',
+    best:  ['Operations Coordinator','Customer Success Manager','Project Coordinator','Office Manager','Nurse / Healthcare Professional','Teacher / Trainer','Logistics Coordinator'],
+    avoid: ['Chief Executive Officer','Crisis Manager','Day Trader','Rapid Sales Role','Change Management Lead'],
+    why:   'Pure S profiles are the backbone of execution. You perform best in roles with clear expectations, stable environments and consistent human relationships.'
+  },
+  'SD': {
+    title: 'Operational backbone, reliable team lead',
+    best:  ['Operations Team Lead','Site Supervisor','Facilities Manager','Quality Manager','Project Manager','Production Supervisor','Service Delivery Manager'],
+    avoid: ['Startup CEO','Creative Director','Strategy Consultant','VC / Investment Analyst','Crisis Communications Lead'],
+    why:   'SD profiles are steady, reliable and capable of decisive action when required. You perform best in operational leadership roles with clear accountability.'
+  },
+  'Si': {
+    title: 'Empathetic people leader, culture carrier',
+    best:  ['HR Manager','Team Leader / People Manager','Social Worker','Counsellor / Coach','Learning & Development Manager','Employee Relations Manager','Community Lead'],
+    avoid: ['Financial Auditor','Data Scientist','Hard Closer / Transactional Sales','Compliance Officer','Systems Engineer'],
+    why:   'Si profiles are deeply people-oriented and emotionally intelligent. You perform best in roles where genuine care for others is the primary qualification.'
+  },
+  'SC': {
+    title: 'Systematic supporter, process guardian',
+    best:  ['Quality Assurance Manager','Compliance Officer','Systems Administrator','Operations Analyst','Process Improvement Manager','Finance Manager','Documentation Specialist'],
+    avoid: ['Entrepreneur / Founder','Fast-paced Sales Role','Change Manager','Creative Director','Startup Lead'],
+    why:   'SC profiles build systems that last. You are most effective in roles where process design, quality control and consistent execution are the core deliverables.'
+  },
+  'C':  {
+    title: 'Precision analyst, quality specialist',
+    best:  ['Data Scientist / Analyst','Financial Analyst','Research Scientist','Quality Assurance Lead','Compliance Manager','Software Engineer','Actuary'],
+    avoid: ['Sales Manager','Events Manager','PR Lead','Community Builder','Fast-paced People Manager'],
+    why:   'Pure C profiles are at their best where accuracy is the primary measure. You need environments where getting it right matters more than getting it fast.'
+  },
+  'CD': {
+    title: 'Perfectionist controller, quality executive',
+    best:  ['Quality Director','Chief Risk Officer','Technical Director','Senior Auditor','Engineering Manager','Legal Director','Data Architecture Lead'],
+    avoid: ['Front-line Sales','Community Manager','Event Coordinator','Brand Activations Lead','PR Manager'],
+    why:   'CD profiles combine analytical precision with decisive authority. You excel in senior roles where both standards and outcomes matter and you have control over both.'
+  },
+  'Ci': {
+    title: 'Analytical communicator, technical relationship builder',
+    best:  ['People Analytics Lead','Technical Account Manager','UX Researcher','Strategic Communications Manager','Data-driven Marketing Lead','L&D Specialist','Organisational Development Consultant'],
+    avoid: ['Hard Sales Closer','Crisis Response Manager','Field Operations Lead','Production Floor Manager','High-volume Call Centre Manager'],
+    why:   'Ci profiles translate between analytical and human systems. You are most effective in roles requiring both technical credibility and interpersonal skill.'
+  },
+  'CS': {
+    title: 'Structured stabiliser, institutional builder',
+    best:  ['Finance Manager','IT Operations Manager','Process Engineer','Compliance & Risk Manager','Technical Project Manager','Library or Knowledge Manager','Systems Analyst'],
+    avoid: ['Startup Founder','Creative Director','Business Development Lead','Public Speaker','Brand Manager'],
+    why:   'CS profiles build organisations that outlast any individual. You are most effective in roles where long-term reliability, process integrity and quiet excellence define success.'
+  },
+};
+
+function getRoles(primary, secondary) {
+  const blend = primary + secondary;
+  return ROLES_16[blend] || ROLES_16[primary] || ROLES_16['D'];
+}
+
+
+
+// ══════════════════════════════════════════════════════════════════════
+// WORKING WITH OTHERS — Style-sensitive tips per respondent primary
+// ══════════════════════════════════════════════════════════════════════
+const WORKING_TIPS = {
+  'D': {
+    D: 'Match their pace and directness. Lead with the result, skip the preamble. If you disagree, hold your position with a clear argument — they respect principled pushback. Redirect competitive escalation toward the shared goal before it becomes personal.',
+    i: 'Acknowledge their ideas visibly before moving to substance. A brief personal exchange before the task conversation makes a real difference. Avoid pure task mode — they read it as coldness. The most effective phrase: "I love this idea, and here is how we make it land."',
+    S: 'Slow your pace deliberately. Ask for their input and wait fully before responding. Never surprise them with sudden shifts. They are your most loyal collaborators if you invest in the relationship. The most effective phrase: "I want to understand your perspective before we decide anything."',
+    C: 'Give data, time and analytical space before expecting a decision. Validate their precision rather than treating it as an obstacle. Their quality instinct combined with your pace is complementary when both are respected. The most effective phrase: "Here is the data. What am I missing?"',
+  },
+  'i': {
+    D: 'Lead with the outcome and be direct. Skip the social warm-up — they will see through it. Bring energy to execution, not just ideas. They respect you when you deliver, not when you impress. The most effective phrase: "Here is what I am going to make happen."',
+    i: 'Bring the energy and match theirs. Before diving into task mode, give the idea room to breathe. Be careful: two i profiles can generate enormous enthusiasm and very little follow-through. One of you needs to anchor the conversation in deliverables.',
+    S: 'Slow down and check in genuinely before moving to the task. They need to feel you care about them, not just what they can produce. Ask questions and actually wait for the answers. The most effective phrase: "How are you finding things at the moment?"',
+    C: 'Give them structure, data and preparation time. They will not perform under your natural spontaneity. Ask in advance, not in the moment. Validate their thoroughness rather than rushing it. The most effective phrase: "I have put together what I know — what questions do you have?"',
+  },
+  'S': {
+    D: 'Be direct and clear about what you need. They do not want extended relationship-building before the task conversation. Lead with the ask, be specific about the outcome, and be prepared to be challenged. The most effective phrase: "Here is the outcome I need and by when."',
+    i: 'Match their warmth and give them genuine acknowledgement before moving to the work. They perform better when they feel energised by the interaction. A short personal connection before the task makes a real difference to their output.',
+    S: 'Take the time to build the relationship before expecting full collaboration. You share a similar pace and values. Be careful: two S profiles can avoid necessary conversations in the interest of harmony. Commit to naming issues even when it feels uncomfortable.',
+    C: 'Give them space, data and time. Do not rush them into decisions. Show your work — they trust processes they can follow. Acknowledge their precision explicitly. The most effective phrase: "Take the time you need — here is all the information I have."',
+  },
+  'C': {
+    D: 'Lead with logic and evidence. Keep it brief. They will make the decision fast — your job is to make the case clearly and accurately. Do not over-explain or add caveats. The most effective phrase: "Here is my analysis and my recommendation."',
+    i: 'Acknowledge their enthusiasm before presenting your data. They need to feel included before they can engage with substance. Make your analysis accessible, not just accurate. The most effective phrase: "Here is something interesting I found — I think you will see the opportunity in this."',
+    S: 'Be patient with their pace and warm in your delivery. They respond well to thoroughness and genuine care. Do not present your analysis coldly. Show that you considered the impact on people, not just the logical outcome.',
+    C: 'You share the same analytical instincts and quality standards. Work to prevent mutual over-analysis. Establish a decision deadline before you start. One of you needs to play the role of the person who moves things forward — explicitly agree on who that is.',
+  },
+};
+
+// ══════════════════════════════════════════════════════════════════════
+// COACHING & KPI DATA — 16 PERMUTATIONS
+// ══════════════════════════════════════════════════════════════════════
+const COACHING_16 = {
+  'D':  {coaching:'Direct, confrontational, outcome-focused. Do not soften. They lose respect for you immediately if you do.',kpi:'Output only — revenue, deals closed, projects completed. Never activity metrics.',trigger:'Loss of control or slow-moving people.',correction:'Remove bottlenecks fast. Give bigger problems, not more rules.',failure:'Runs over the team and destroys morale without noticing.'},
+  'Di': {coaching:'High energy and grounded in reality. "You are great at opening doors. How many actually closed?"',kpi:'Revenue, conversion rate, presentations, pipeline visibility.',trigger:'Excitement without execution.',correction:'Force written commitments and daily follow-up tracking. Public scoreboards work.',failure:'Talks big, under-delivers, blames circumstances.'},
+  'DS': {coaching:'Balanced — firm and supportive simultaneously. "You are protecting harmony, but results are slipping."',kpi:'Output plus team KPIs — both individual and collective.',trigger:'Conflict between results and team harmony.',correction:'Coach decision-making under pressure. Help them prioritise outcome over comfort.',failure:'Hesitates when team friction appears. Delays necessary calls.'},
+  'DC': {coaching:'Logical and structured. "Your analysis is strong, but speed is killing your impact."',kpi:'Accuracy, efficiency, ROI, decision speed.',trigger:'Poor logic or sloppy thinking from others.',correction:'Introduce decision deadlines. The 80 percent rule: decide when you have enough, not when you have everything.',failure:'Slows down execution with over-analysis.'},
+  'i':  {coaching:'Encouraging but structured. "You bring energy — but energy without results does not count."',kpi:'Activities and interactions — calls, meetings, engagements. Short feedback loops.',trigger:'Isolation or monotony.',correction:'Break work into short sprints with immediate feedback.',failure:'Inconsistent execution. Starts strong, drops off.'},
+  'iD': {coaching:'Respect their leadership, hold them accountable. "People listen to you. Are you leading them to results?"',kpi:'Team results plus influence metrics.',trigger:'Not being heard or seen.',correction:'Acknowledge first, then redirect to execution. Tie influence to measurable outcomes.',failure:'Ego drives decisions over evidence.'},
+  'iS': {coaching:'Safe, calm, but firm. "Avoiding conflict is hurting performance."',kpi:'Team contribution, feedback scores, engagement metrics.',trigger:'Conflict and rejection.',correction:'Script difficult conversations in advance. Train assertiveness gradually.',failure:'Avoids tough decisions. Creates false harmony.'},
+  'iC': {coaching:'Structured discussion. "You are preparing too much. When do you act?"',kpi:'Quality of communication, planning accuracy, stakeholder satisfaction.',trigger:'Unclear expectations.',correction:'Set preparation time limits. Force action before comfort is reached.',failure:'Over-prepares, slow to execute.'},
+  'S':  {coaching:'Calm and consistent. "You are reliable — but you are staying too safe."',kpi:'Consistency metrics — on-time delivery, reliability, completion rate.',trigger:'Rapid unannounced change.',correction:'Explain the why before the what. Give transition time. Introduce change gradually.',failure:'Passive resistance. Builds silent resentment.'},
+  'SD': {coaching:'Appreciative but observant. "You are taking on too much. Where is your limit?"',kpi:'Task completion, reliability, capacity utilisation.',trigger:'Being overloaded without acknowledgement.',correction:'Proactive weekly capacity check-ins. They will not ask for help.',failure:'Accepts too much silently, then underperforms across everything.'},
+  'Si': {coaching:'Emotionally aware. "You are carrying everyone\'s emotions. That is not your job."',kpi:'Engagement, satisfaction, team retention.',trigger:'Emotional overwhelm or toxic environment.',correction:'Teach boundary-setting. Clarify what is their responsibility and what belongs to others.',failure:'Emotional burnout. Absorbs team distress until they cannot perform.'},
+  'SC': {coaching:'Logical and safe. "Your system is strong. But can it handle change?"',kpi:'Accuracy, process adherence, error rate.',trigger:'Chaos or unclear process.',correction:'Reintroduce structure immediately when disruption occurs. Give SOPs.',failure:'Rigidity. Resists necessary change even when evidence supports it.'},
+  'C':  {coaching:'Data-driven. "Your accuracy is high. But decisions are too slow."',kpi:'Error rate, quality benchmarks, analysis turnaround time.',trigger:'Lack of clarity or incomplete information.',correction:'Enforce decision deadlines. Provide full context upfront.',failure:'Analysis paralysis. Waits for certainty that never comes.'},
+  'CD': {coaching:'Structured challenge. "Perfect is delaying results."',kpi:'Quality benchmarks and delivery timelines — both matter equally.',trigger:'Imperfection and lack of control.',correction:'Define "done" explicitly. Set deadlines with quality thresholds attached.',failure:'Perfectionism delays output and demoralises the team.'},
+  'Ci': {coaching:'Low pressure and structured. "You have good thoughts — but you are not sharing them."',kpi:'Communication accuracy, stakeholder engagement, meeting contribution.',trigger:'Public pressure or being put on the spot.',correction:'Use pre-read materials. Allow written responses. Ask for input in advance of meetings.',failure:'Silence. Important observations go unsaid.'},
+  'CS': {coaching:'Step-by-step. "This change is necessary — here is how we will do it safely."',kpi:'Process reliability, long-term consistency, system accuracy.',trigger:'Disruption without logical justification.',correction:'Show the step-by-step reasoning for any change before implementing it.',failure:'Resists change. Maintains processes past their usefulness.'},
+};
+
 // ══════════════════════════════════════════════════════════════════════
 // MANAGER GUIDE — 16 PERMUTATIONS
 // Source: Trident Talents DISC Permutations Framework
@@ -2122,7 +2286,7 @@ function buildReport(R) {
 
   <!-- ══ REPORT PAGES ══════════════════════════════════════════════ -->
   <div class="print-header">
-    <img src="${LOGO_SRC}" alt="Trident Talents">
+    <img src="${LOGO_SRC}" alt="Trident Talents" style="height:26px!important;width:auto!important;max-width:130px!important;object-fit:contain;">
     <span>DISC Multi-Context Assessment Report</span>
   </div>
 
@@ -2313,16 +2477,18 @@ function buildReport(R) {
   <!-- ═══ SECTION 15: WORKING WITH OTHERS ═══ -->
   <div class="r-section">
     <div class="r-section-title">15. Working with each style, your adapted guide</div>
-    ${para('The most effective communicators and collaborators are not those who found the right people to work with, they are those who learned to adapt their approach to whoever they are with. The guide below gives you a specific strategy for each of the four styles.')}
+    ${para('The most effective communicators are those who adapt their approach to whoever they are with. The guide below is written specifically for your ' + pri + (sec ? sec : '') + ' style — not generic advice, but what actually works for you when working with each type.')}
     <div style="overflow-x:auto;">
       <table class="adapt-table">
-        <thead><tr><th>Style</th><th>Name</th><th>Your approach</th></tr></thead>
+        <thead><tr><th>Style</th><th>Name</th><th>Your approach as a ${pri + (sec ? sec : '')}</th></tr></thead>
         <tbody>
-          ${[['D','#185FA5','Match their pace and directness. Lead with the result and skip any preamble. They respect confidence and competence above all else. If you disagree, hold your position with a clear logical argument, they will respect pushback that is principled. Watch for competitive escalation and redirect it toward the shared goal rather than allowing it to become personal. The most effective phrase with a D is: "Here is what I think needs to happen and why."'],
-             ['i','#D85A30','Acknowledge their ideas visibly and with genuine warmth before moving to substance. They need to feel energised by you before they will deliver for you. A brief personal exchange before the task conversation makes a material difference to their engagement. Avoid communicating in pure task mode, they read that as coldness and disengage accordingly. The most effective phrase with an i is: "I love this idea, and here is how I think we can make it land."'],
-             ['S','#1D9E75','Slow your pace slightly and ask for their input, then wait fully for the answer before responding. Give them time to process any change before demanding commitment. Never surprise them with sudden shifts in direction. They are your most loyal and steady collaborators if you invest in the relationship over time. The most effective phrase with an S is: "I want to understand your perspective before we decide anything."'],
-             ['C','#BA7517','Provide data, time and room to analyse before expecting a decision. Validate their precision rather than treating it as an obstacle. They will identify errors you created by moving fast, and their quality instinct combined with your pace is genuinely complementary when both are respected. The most effective phrase with a C is: "Here is the data. What am I missing?"']
-          ].map(([s,c,tip])=>`<tr><td><span class="sname" style="color:${c};">${s}</span></td><td>${STYLE_LABELS[s]||s}</td><td style="font-size:13px;">${tip}</td></tr>`).join('')}
+          ${['D','i','S','C'].map(s => {
+            const tips = (WORKING_TIPS[pri] || WORKING_TIPS['D']);
+            const tip = tips[s] || '';
+            const colors = {'D':'#185FA5','i':'#D85A30','S':'#1D9E75','C':'#BA7517'};
+            const labels = {'D':'Dominance','i':'Influence','S':'Steadiness','C':'Conscientiousness'};
+            return `<tr><td><span class="sname" style="color:${colors[s]};">${s}</span></td><td>${labels[s]}</td><td style="font-size:13px;">${tip}</td></tr>`;
+          }).join('')}
         </tbody>
       </table>
     </div>
@@ -2338,6 +2504,27 @@ function buildReport(R) {
     ${N.ideal_environment.split('\n\n').map(p=>para(p)).join('')}
     ${getExtendedModifier(pri, sec, 'environment_add') ? insightBoxHTML('Where your ' + pri + sec + ' blend performs best', getExtendedModifier(pri, sec, 'environment_add'), '') : ''}
   </div>
+
+  <!-- ═══ SECTION 16B: SUGGESTED ROLES ═══ -->
+  ${(()=>{
+    const roles = getRoles(pri, sec);
+    const bestList = roles.best.map(r=>`<li style="font-size:13px;padding:3px 0;color:var(--text-mid);">${r}</li>`).join('');
+    const avoidList = roles.avoid.map(r=>`<li style="font-size:13px;padding:3px 0;color:var(--text-mid);">${r}</li>`).join('');
+    return `<div class="r-section">
+    <div class="r-section-title">Role fit for the ${pri + (sec ? sec : '')} profile — ${roles.title}</div>
+    ${para(roles.why)}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px;">
+      <div style="background:var(--blue-pale);border-radius:var(--radius);padding:14px 16px;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#185FA5;margin-bottom:8px;">Roles where you thrive</div>
+        <ul style="list-style:none;padding:0;margin:0;">${bestList}</ul>
+      </div>
+      <div style="background:#FCEBEB;border-radius:var(--radius);padding:14px 16px;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#A32D2D;margin-bottom:8px;">Roles that drain you</div>
+        <ul style="list-style:none;padding:0;margin:0;">${avoidList}</ul>
+      </div>
+    </div>
+  </div>`;
+  })()}
 
   <!-- ═══ SECTION 17: GROWTH TRAJECTORY ═══ -->
   <div class="r-section">
@@ -2388,8 +2575,32 @@ function buildReport(R) {
   <!-- ═══ SECTION 21: MANAGER'S GUIDE ═══ -->
   <div class="r-section">
     <div class="r-section-title">21. Manager's guide, for the people who lead ${firstName}</div>
-    ${para(`This section is written for ${firstName}'s manager, not for ${firstName}. It summarises what this profile needs to perform at its best, and what to avoid.`)}
+    ${para(`This section is written for ${firstName}'s manager, not for ${firstName}. It summarises what this profile needs to perform at its best, what to watch for, and how to coach it effectively.`)}
     ${insightBoxHTML(`How to get the best from ${firstName}`, getManagerGuide(pri, sec), '')}
+    ${(()=>{
+      const blend = pri + sec;
+      const c = COACHING_16[blend] || COACHING_16[pri] || COACHING_16['D'];
+      return `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+        <div style="background:var(--blue-pale);border-radius:var(--radius);padding:14px 16px;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#185FA5;margin-bottom:6px;">Coaching approach</div>
+          <div style="font-size:13px;color:var(--text-mid);line-height:1.6;">${c.coaching}</div>
+        </div>
+        <div style="background:var(--blue-pale);border-radius:var(--radius);padding:14px 16px;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#185FA5;margin-bottom:6px;">KPI and measurement style</div>
+          <div style="font-size:13px;color:var(--text-mid);line-height:1.6;">${c.kpi}</div>
+        </div>
+        <div style="background:#FAEEDA;border-radius:var(--radius);padding:14px 16px;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#BA7517;margin-bottom:6px;">Trigger point</div>
+          <div style="font-size:13px;color:var(--text-mid);line-height:1.6;">${c.trigger}</div>
+        </div>
+        <div style="background:#FAEEDA;border-radius:var(--radius);padding:14px 16px;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#BA7517;margin-bottom:6px;">Correction strategy</div>
+          <div style="font-size:13px;color:var(--text-mid);line-height:1.6;">${c.correction}</div>
+        </div>
+      </div>
+      ${insightBoxHTML('Failure mode to watch for', c.failure, 'red')}`;
+    })()}
   </div>
 
   <div class="print-btn-row" style="display:none;"></div>
@@ -2404,12 +2615,25 @@ function buildReport(R) {
 
   // Conflict data inline
   const conflictData = {
-    D:{driver:'Winning, control and asserting your position over others.',destructive:'Hypercriticism, finger-pointing, aggressive bluntness, and a tendency to turn every disagreement into a competition.',productive:'Frame it as a shared problem to solve. Set a time limit on debate. Commit to hearing the other position fully before you respond. Ask yourself: do I want to win this argument, or do I want to resolve this situation?'},
-    i:{driver:'Being heard, understood and maintaining the approval of the people involved.',destructive:'Dramatising, gossiping to build alliances, impulsive emotional reactions, and avoidance of difficult but necessary conversations.',productive:'Separate the relationship from the issue. Write down your actual position before the conversation so that social pressure cannot shift you off it during the exchange.'},
-    S:{driver:'Agreement, peace and preserving the harmony of the relationship above all else.',destructive:'Passive resistance, silent resentment, excessive accommodation that does not reflect your actual view, and delayed withdrawal.',productive:'Name your position clearly and early, even a single sentence stating what you actually think. Unspoken positions do not get resolved; they accumulate.'},
-    C:{driver:'Fairness, accuracy and finding a resolution that is logically defensible.',destructive:'Withdrawal, over-analysis that prevents action, withholding engagement, and a tendency to become hypercritical of others when under pressure.',productive:'Set a decision deadline and honour it. Accept that some conflict cannot be resolved with evidence alone, sometimes the right answer involves a compromise that is imperfect by your standards but workable by everyone\'s.'},
+    D:  {driver:'Winning, control and asserting your position.',destructive:'Hypercriticism, finger-pointing, aggressive bluntness, turning every disagreement into a competition.',productive:'Frame it as a shared problem to solve. Set a time limit on debate. Ask yourself: do I want to win this argument, or do I want to resolve this situation?'},
+    Di: {driver:'Winning with audience buy-in — you want to be right AND admired.',destructive:'Aggressive persuasion, rallying others to your side before the issue is resolved, using charm to overwhelm rather than engage.',productive:'Separate the social from the substantive. State your position clearly before you start building coalition. Win the argument on its merits, not on who is in the room.'},
+    DS: {driver:'Achieving the outcome while protecting the relationship — a genuinely difficult combination.',destructive:'Delaying necessary confrontation to preserve harmony, producing false resolution that leaves both sides without clarity.',productive:'Decide before the conversation which matters more: the outcome or the relationship. Name your position in one sentence and hold it. Accommodation is not the same as resolution.'},
+    DC: {driver:'Being right, in control, and having the logical high ground simultaneously.',destructive:'Using data and authority as weapons, making the other person feel both overruled and intellectually inadequate.',productive:'Being right is not the same as resolving the situation. Ask one genuine question about the other position before you respond. It costs nothing and changes everything.'},
+    i:  {driver:'Being heard, understood and maintaining the approval of the people involved.',destructive:'Dramatising, gossiping to build alliances, impulsive emotional reactions, avoiding difficult but necessary conversations.',productive:'Separate the relationship from the issue. Write your actual position down before the conversation so social pressure cannot shift you off it.'},
+    iD: {driver:'Being heard AND prevailing — you want the relationship to survive but you also want to win.',destructive:'Charismatic force — being so energetic and confident in your position that opposition feels pointless rather than considered.',productive:'Write out the strongest version of the other position before you go in. Acknowledge it out loud before you present yours. This single step changes the conversation.'},
+    iS: {driver:'Harmony — you will sacrifice your actual position to prevent the discomfort of conflict.',destructive:'Agreeing to things you do not believe, creating false resolution that damages trust when the misalignment surfaces later.',productive:'Write down your position before the conversation. Commit to stating it once, clearly, regardless of the response. You do not have to fight for it — you just have to say it.'},
+    iC: {driver:'Being liked AND being correct — a combination that makes conflict internally exhausting.',destructive:'Over-preparing your argument while under-delivering it, softening the message to the point where it loses its meaning.',productive:'State your core point in one sentence before adding context. The relationship can handle honesty. What it cannot handle is the resentment of things left unsaid.'},
+    S:  {driver:'Agreement, peace and preserving the harmony of the relationship above all else.',destructive:'Passive resistance, silent resentment, excessive accommodation that does not reflect your actual view.',productive:'Name your position clearly and early, even one sentence. Unspoken positions do not get resolved — they accumulate.'},
+    SD: {driver:'Stability with accountability — you want to maintain the relationship and ensure the right outcome.',destructive:'Patience that tips into passivity — waiting so long to address an issue that the window for easy resolution has closed.',productive:'Set an internal deadline for raising an issue. If the problem is still present in 48 hours, raise it. Waiting for the right moment is often waiting for a moment that does not come.'},
+    Si: {driver:'Emotional safety and connection — you need to feel the relationship can survive this conversation before you can have it.',destructive:'Absorbing conflict rather than addressing it, using warmth and humour to defuse situations that actually need to be resolved.',productive:'Acknowledge that you find conflict uncomfortable, then proceed anyway. The relationship is almost always stronger than your fear of this conversation.'},
+    SC: {driver:'Order, process and a logically sound resolution that everyone can follow.',destructive:'Analysis that delays action, raising every concern before committing to any resolution, creating thoroughness that feels like obstruction.',productive:'Set a decision point and honour it. Not every conflict needs a perfect resolution — it needs a workable one. Define workable before you start.'},
+    C:  {driver:'Fairness, accuracy and finding a resolution that is logically defensible.',destructive:'Withdrawal, over-analysis, withholding engagement, becoming hypercritical of others under pressure.',productive:'Set a decision deadline and honour it. Accept that some conflict requires compromise that is imperfect by your standards but workable for everyone.'},
+    CD: {driver:'Being right AND in control of how the resolution happens.',destructive:'Making the other person feel intellectually inadequate and procedurally outmanoeuvred simultaneously.',productive:'Win the argument, then actively help the other person save face. You do not lose anything by doing this and you preserve the relationship\'s capacity to produce future results.'},
+    Ci: {driver:'Correctness with approval — you want the right answer and you want people to like you for having it.',destructive:'Softening your precision to manage the other person\'s feelings, which means the right answer never quite lands.',productive:'Deliver the full analysis. The relationship is strong enough to handle an uncomfortable finding. What damages it is the other person discovering later that you softened the truth.'},
+    CS: {driver:'Process integrity and relational stability — you want the resolution to follow the right steps and leave the relationship intact.',destructive:'Slow engagement, excessive caution, and accommodating imperfect resolutions rather than pushing for complete ones.',productive:'Define what resolution looks like before the conversation starts. You are more effective in conflict when you have a destination in mind rather than hoping the process will find one.'},
   };
-  const cf = conflictData[pri] || conflictData.D;
+  const blend = pri + sec;
+  const cf = conflictData[blend] || conflictData[pri] || conflictData.D;
   const finalHtml = html
     .replace('{{ CONFLICT_DRIVER }}', cf.driver)
     .replace('{{ CONFLICT_DESTRUCTIVE }}', cf.destructive)
